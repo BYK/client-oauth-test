@@ -17,7 +17,7 @@ function startAuth() {
 }
 function checkAuthorization() {
   const urlParser = new URL(document.location);
-  urlParser.search = urlParser.hash;
+  urlParser.search = urlParser.hash.slice(1);
   const accessToken = urlParser.searchParams.get('access_token')
   if (!accessToken) return;
   window.fetch('https://sentry.io/api/0/users/me/', {
