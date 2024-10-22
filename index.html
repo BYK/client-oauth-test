@@ -20,12 +20,11 @@ function checkAuthorization() {
   urlParser.search = urlParser.hash.slice(1);
   const accessToken = urlParser.searchParams.get('access_token')
   if (!accessToken) return;
-  window.fetch('https://sentry.io/api/0/users/me/', {
+  window.fetch('https://sentry.io/oauth/userinfo/', {
     headers: {
       "Authorization": `Bearer ${accessToken}`,
     },
   }).then(resp => resp.json()).then(resp => document.querySelector('#response').textContent = JSON.stringify(resp, null, 2));
-
 }
 document.onload = checkAuthorization;
 </script>
