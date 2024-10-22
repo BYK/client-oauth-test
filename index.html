@@ -4,5 +4,18 @@
 </head>
 <body>
 <h1>Hello World</h1>
+<script>
+const clientId = 'bd9a268b72dd83cc927795d3fc7a0616d2af600d2a77884b87034e0419546232';
+const authUrl = 'https://sentry.io/oauth/authorize/'
+function startAuth() {
+  const redirUrl = new URL(authUrl);
+  redirUrl.searchParams.append('client_id', clientId);
+  redirUrl.searchParams.append('response_type', 'token');
+  redirUrl.searchParams.append('scopes', ['openid', 'profile', 'org:read', 'project:read', 'event:read'].join(','));
+
+  document.location.href = redirUrl.href;
+}
+</script>
+<button onclick=startAuth>Start Auth Flow</button>
 </body>
 </html>
