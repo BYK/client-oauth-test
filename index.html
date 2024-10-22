@@ -10,12 +10,26 @@ const authUrl = 'https://sentry.io/oauth/authorize/'
 function startAuth() {
   const redirUrl = new URL(authUrl);
   redirUrl.searchParams.append('client_id', clientId);
-  redirUrl.searchParams.append('response_type', 'token');
-  redirUrl.searchParams.append('scopes', ['openid', 'profile', 'org:read', 'project:read', 'event:read'].join(','));
+  redirUrl.searchParams.append('response_type', 'code');
+  redirUrl.searchParams.append('scope', ['openid', 'profile', 'org:read', 'project:read', 'event:read'].join(','));
 
   document.location.href = redirUrl.href;
 }
+function checkAuthorization() {
+  const urlParser = new URL(document.location);
+  urlParser.search = urlParser.hash;
+  const accessToken = urlParser.searchParams.get('access_token')
+  if (!accessToken) return;
+  window.fetch('https://sentry.io/api/0/users/me/', {
+    headers: {
+      "Authorization", `Bearer ${accessToken}`
+    }
+  }).then(resp => resp.json()).then(resp => document.querySelector('#response').textContent = JSON.stringify(resp, null, 2));
+
+}
+document.onload = checkAuthorization;
 </script>
-<button onclick=startAuth>Start Auth Flow</button>
+<button onclick="startAuth()">Start Auth Flow</button>
+<textarea id=response></textarea>
 </body>
 </html>
