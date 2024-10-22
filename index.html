@@ -22,8 +22,8 @@ function checkAuthorization() {
   if (!accessToken) return;
   window.fetch('https://sentry.io/api/0/users/me/', {
     headers: {
-      "Authorization", `Bearer ${accessToken}`
-    }
+      "Authorization": `Bearer ${accessToken}`,
+    },
   }).then(resp => resp.json()).then(resp => document.querySelector('#response').textContent = JSON.stringify(resp, null, 2));
 
 }
