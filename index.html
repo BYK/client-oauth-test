@@ -11,7 +11,7 @@ function startAuth() {
   const redirUrl = new URL(authUrl);
   redirUrl.searchParams.append('client_id', clientId);
   redirUrl.searchParams.append('response_type', 'token');
-  redirUrl.searchParams.append('scope', ['openid', 'profile', 'org:read', 'project:read', 'event:read'].join(','));
+  redirUrl.searchParams.append('scope', ['openid', 'profile', 'org:read', 'project:read', 'event:read'].join(' '));
 
   document.location.href = redirUrl.href;
 }
